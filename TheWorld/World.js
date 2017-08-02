@@ -117,18 +117,17 @@ var moveTo = function(position, content, villagers, actual){
             setNewVillagerPosition(villagers[actual], target);
             content = printPosition(content, [villagers[actual][2],villagers[actual][3]], villagers[actual][0]);
             arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = villagers[actual][0];
-            console.log("point", point);
+            //console.log("point", point);
         }
         if((point === "☺")){
-            console.log("test: ", villagers[actual][1] += 5);
+            villagers[actual][1] += 5;
             //villager[1] = villager[1] + 5;
         }else if((point == "♥")||(point === "♦")||(point === "♣")||(point === "♠")){
             if(point !== villagers[actual][0]){
-                console.log("duel");
-                console.log("V1 = ", content[villagers[actual][2]][villagers[actual][3]]);
-                console.log("getByPos", getVillagerByPosition(villagers, 2, 2));
+                //console.log("duel");
+                //console.log("V1 = ", content[villagers[actual][2]][villagers[actual][3]]);
+                //console.log("getByPos", getVillagerByPosition(villagers, 2, 2));
             }
-            
             //console.log("-> " + content[villager[2]][villager[3]] + " X " + content[target[0]][target[1]]);
     }
     return null;
@@ -198,10 +197,10 @@ var round = function(content){
     villagers.forEach(function(value , key){
         moveTo(getRamdonMove(), content, villagers, key);
     })
-    printLog(content);
-    console.log("new round");
+    //printLog(content);
+    //console.log("new round");
     villagers.forEach(function(value , key){
-        console.log("Life: " + value[0] + " = " + value[1]);
+        //console.log("Life: " + value[0] + " = " + value[1]);
         scoreBoard.children[key].children[1].innerHTML = value[1];
     })
 
