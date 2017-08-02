@@ -21,10 +21,18 @@ var  getRamdonPosition = function(size) {
     return cell;
 }
 
+var getSlot = function (){
+    return document.getElementById("arenaSlot");
+}
+
+var getTable = function(){
+    return document.getElementById("arena");
+}
+
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
     return positions[Math.round(Math.random()*100)%5];
-    // 5 porque pode ser invalido e ficar parado
+    // 5 porque pode ser um lado invalido e se manter parado
 }
 
 var createVillager = function(content, villagers, size, type){
@@ -116,7 +124,7 @@ var moveTo = function(position, content, villagers, actual){
 }
 
 var createGraphicTable = function(size){
-    var arenaSlot = document.getElementById("arenaSlot");
+    var arenaSlot = getTable();
     var arenaGraphic = document.createElement("table");
     for (var j = 0; j < size; j++) {
         var row = document.createElement("tr");
@@ -130,15 +138,17 @@ var createGraphicTable = function(size){
     }
     arenaGraphic.id = "arena";
     console.log("Created Arena Graphic with" + size + " X " + size);
-    arenaSlot.appendChild(arenaGraphic);
+    return arenaGraphic;
 }
 
 var createWorld = function(size){
+    arenaGraphic = createGraphicTable(size); //create the arena <table> with size described
     var line = [];
     for(var l = 0 ; l < size ; l++){
         for(var c = 0 ; c < size ; c++){
             if ((l === 0 || c === 0)||(l === size-1 || c === size-1)){
                 line[c] = "#";
+                arenaGraphic.children[l].children[c].setAttribute("class", "wall");
             }else{
                 line[c] = "☺";
             }
@@ -146,15 +156,18 @@ var createWorld = function(size){
         content.push(line);
         line = [];
     }
-    createGraphicTable(size);
+    var arenaSlot = document.getElementById("arenaSlot");
+    arenaSlot.appendChild(arenaGraphic);
+    //console.log("ArenaWalls", arenaGraphic);
     return content;
 }
 
 var createInternalWalls = function(content, qtd){
-    arena = document.getElementById(arena);
+    var arena = getTable();
     for(var i=0 ; i<qtd ; i++){
         var position = (getRamdonPosition(content.length));
         content = printPosition(content, position, "#");
+        arena.children[position[0]].children[position[1]].setAttribute("class", "wall");
     }
     return content;
 }
@@ -179,6 +192,14 @@ var round = function(content){
     })
 
 }
+
+//temporario para testes
+
+//var arenaSlot = document.getElementById("arenaSlot");
+//var arenaGraphic = createGraphicTable(10);
+//arenaSlot.appendChild(arenaGraphic);
+
+////////////////////////
 
 content = createWorld(10,10);
 content = populeWorld(content);
