@@ -38,6 +38,7 @@ var getRamdonMove = function(){
 var createVillager = function(content, villagers, size, type){
     var validator = 0;
     var position = [];
+    var arena = getTable();
     while(validator === 0){
         position = getRamdonPosition(size);
         if(content[position[0]][position[1]] === "#"){
@@ -46,6 +47,7 @@ var createVillager = function(content, villagers, size, type){
             "] is ocuped", content[position[0]][position[1]]);
         }else{
             content[position[0]][position[1]] = type;
+            arena.children[position[0]].children[position[1]].innerHTML = type;
             validator = 1;
         }
     }
@@ -102,10 +104,13 @@ var moveTo = function(position, content, villagers, actual){
             target.push(0,0);
     }
     var point = inspectPositions(content, villagers[actual], target)
+        var arena = getTable();
         if (point !== "#"){
             content = clearPosition(content, [villagers[actual][2],villagers[actual][3]]);
+            arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = "";
             setNewVillagerPosition(villagers[actual], target);
             content = printPosition(content, [villagers[actual][2],villagers[actual][3]], villagers[actual][0]);
+            arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = villagers[actual][0];
             console.log("point", point);
         }
         if((point === "☺")){
