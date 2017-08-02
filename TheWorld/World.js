@@ -7,6 +7,7 @@ var content = [];
 var internallWalls = 0;
 var sizeWorld = 0;
 var velocity = 0;
+var maxRounds = 0;
 
 
 var printLog = function (content) {
@@ -210,19 +211,19 @@ var round = function(content){
 
 var start = function(){
     getSlot().removeChild(document.getElementById("bg-config"));
-
     content = createWorld(sizeWorld, sizeWorld);
     content = populeWorld(content);
     var rounds = window.setInterval(function(){round(content)}, velocity);
 }
 
-/////////////////////////////--  CONFIG  --/////////////////////////////
+////////////////////////--  DEFAULT CONFIG  --//////////////////////////
                     
-                    sizeWorld = 12;
-                    internallWalls = 3;
-                    velocity = 100;
-                    
-                    //start();
+            sizeWorld      = 12;   // only square worlds
+            maxRounds      = -1;   // set -1 for infinity
+            maxTime        = -1;   // set -1 for infinity
+            internallWalls = 10;   // the internal Walls
+            velocity       = 100;  // in miliseconds
+            userSelected   = "";   // chose one of: ♣, ♥, ♠, ♦.
 
 ////////////////////////////////////////////////////////////////////////
 
