@@ -31,7 +31,7 @@ var getSlot = function (){
 }
 
 var getScoreBoard = function(){
-    return document.getElementById("scoreBoard")
+    return document.getElementById("scoreBoard");
 }
 
 var getTable = function(){
@@ -41,7 +41,7 @@ var getTable = function(){
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
     return positions[Math.round(Math.random()*100)%5];
-    // 5 porque pode ser um lado invalido e se manter parado
+    // 5 why draw a invalid type, dont move
 }
 
 var createVillager = function(content, villagers, size, type){
@@ -120,18 +120,13 @@ var moveTo = function(position, content, villagers, actual){
             setNewVillagerPosition(villagers[actual], target);
             content = printPosition(content, [villagers[actual][2],villagers[actual][3]], villagers[actual][0]);
             arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = villagers[actual][0];
-            //console.log("point", point);
         }
         if((point === "☺")){
             villagers[actual][1] += 5;
-            //villager[1] = villager[1] + 5;
         }else if((point == "♥")||(point === "♦")||(point === "♣")||(point === "♠")){
             if(point !== villagers[actual][0]){
-                //console.log("duel");
-                //console.log("V1 = ", content[villagers[actual][2]][villagers[actual][3]]);
-                //console.log("getByPos", getVillagerByPosition(villagers, 2, 2));
+                //create function for start duel of the sides
             }
-            //console.log("-> " + content[villager[2]][villager[3]] + " X " + content[target[0]][target[1]]);
     }
     return null;
 }
@@ -187,7 +182,7 @@ var createInternalWalls = function(content, qtd){
 }
 
 var populeWorld = function(content){
-    content = createInternalWalls(content, internallWalls);
+    content = createInternalWalls(content, config.internallWalls);
     villagers = createVillager(content, villagers, content.length, "♣");
     villagers = createVillager(content, villagers, content.length, "♥");
     villagers = createVillager(content, villagers, content.length, "♠");
@@ -201,29 +196,53 @@ var round = function(content){
     villagers.forEach(function(value , key){
         moveTo(getRamdonMove(), content, villagers, key);
     })
-    //printLog(content);
-    //console.log("new round");
     villagers.forEach(function(value , key){
-        //console.log("Life: " + value[0] + " = " + value[1]);
         scoreBoard.children[key].children[1].innerHTML = value[1];
     })
 }
 
-var start = function(){
-    getSlot().removeChild(document.getElementById("bg-config"));
-    content = createWorld(sizeWorld, sizeWorld);
+var start = function(config){
+    config = setConfigs(config); //config settings selected by user or default
+    console.log("velocity do start=", config.velocity)
+    document.getElementById("bg-config").style.display = "none";
+    content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
-    var rounds = window.setInterval(function(){round(content)}, velocity);
+    var rounds = window.setInterval(function(){round(content)}, config.velocity);
 }
 
+var isNumber = function(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+var setConfigs = function(config){
+    velocityTemp = document.getElementById('speed').value
+    wallsTemp = document.getElementById('walls').value;
+    roundsTemp = document.getElementById('rounds').value;
+    timeTemp = document.getElementById('time').value;
+    sizeTemp = document.getElementById('size').value;
+    if(isNumber(velocityTemp))
+        config.velocity = velocityTemp;
+    if(isNumber(wallsTemp))
+        config.internallWalls = wallsTemp;
+    if(isNumber(roundsTemp))
+        config.maxRounds = roundsTemp;
+    if(isNumber(timeTemp))
+        config.maxTime = timeTemp;
+    if(isNumber(sizeTemp))
+        config.sizeWorld = sizeTemp;
+
+    return config;
+}
+
+var config = {
 ////////////////////////--  DEFAULT CONFIG  --//////////////////////////
-                    
-            sizeWorld      = 12;   // only square worlds
-            maxRounds      = -1;   // set -1 for infinity
-            maxTime        = -1;   // set -1 for infinity
-            internallWalls = 10;   // the internal Walls
-            velocity       = 100;  // in miliseconds
-            userSelected   = "";   // chose one of: ♣, ♥, ♠, ♦.
+ 
+                sizeWorld      : 12  ,   // only square worlds
+                maxRounds      : -1  ,   // set -1 for infinity
+                maxTime        : -1  ,   // set -1 for infinity
+                internallWalls : 10  ,   // the internal Walls
+                velocity       : 100 ,   // in miliseconds
+                userSelected   : "♣" ,   // chose one of: ♣, ♥, ♠, ♦.
 
 ////////////////////////////////////////////////////////////////////////
-
+}
