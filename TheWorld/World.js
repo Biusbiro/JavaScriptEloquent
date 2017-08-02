@@ -4,10 +4,7 @@
 
 var villagers = [];
 var content = [];
-var internallWalls = 0;
-var sizeWorld = 0;
-var velocity = 0;
-var maxRounds = 0;
+var freePositions = 0;
 
 
 var printLog = function (content) {
@@ -158,6 +155,7 @@ var createWorld = function(size){
                 line[c] = "#";
                 arenaGraphic.children[l].children[c].setAttribute("class", "wall");
             }else{
+                freePositions += 1;
                 line[c] = "☺";
                 arenaGraphic.children[l].children[c].innerHTML = "•"
             }
@@ -187,7 +185,6 @@ var populeWorld = function(content){
     villagers = createVillager(content, villagers, content.length, "♥");
     villagers = createVillager(content, villagers, content.length, "♠");
     villagers = createVillager(content, villagers, content.length, "♦");
-    
     return content;
 }
 
@@ -203,7 +200,6 @@ var round = function(content){
 
 var start = function(config){
     config = setConfigs(config); //config settings selected by user or default
-    console.log("velocity do start=", config.velocity)
     document.getElementById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
@@ -228,9 +224,8 @@ var setConfigs = function(config){
         config.maxRounds = roundsTemp;
     if(isNumber(timeTemp))
         config.maxTime = timeTemp;
-    if(isNumber(sizeTemp))
+    if(isNumber(sizeTemp) && (sizeTemp > 6))
         config.sizeWorld = sizeTemp;
-
     return config;
 }
 
