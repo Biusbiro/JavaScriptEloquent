@@ -5,6 +5,8 @@
 var villagers = [];
 var content = [];
 var internallWalls = 0;
+var sizeWorld = 0;
+var velocity = 0;
 
 
 var printLog = function (content) {
@@ -189,6 +191,7 @@ var populeWorld = function(content){
     villagers = createVillager(content, villagers, content.length, "♥");
     villagers = createVillager(content, villagers, content.length, "♠");
     villagers = createVillager(content, villagers, content.length, "♦");
+    
     return content;
 }
 
@@ -203,19 +206,23 @@ var round = function(content){
         //console.log("Life: " + value[0] + " = " + value[1]);
         scoreBoard.children[key].children[1].innerHTML = value[1];
     })
-
 }
 
-//temporario para testes
+var start = function(){
+    getSlot().removeChild(document.getElementById("bg-config"));
 
-//var arenaSlot = document.getElementById("arenaSlot");
-//var arenaGraphic = createGraphicTable(10);
-//arenaSlot.appendChild(arenaGraphic);
+    content = createWorld(sizeWorld, sizeWorld);
+    content = populeWorld(content);
+    var rounds = window.setInterval(function(){round(content)}, velocity);
+}
 
-////////////////////////
+/////////////////////////////--  CONFIG  --/////////////////////////////
+                    
+                    sizeWorld = 12;
+                    internallWalls = 3;
+                    velocity = 100;
+                    
+                    //start();
 
-content = createWorld(15,15);
-internallWalls = 10;
-content = populeWorld(content);
+////////////////////////////////////////////////////////////////////////
 
-var rounds = window.setInterval(function(){round(content)}, 50);
