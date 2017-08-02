@@ -15,3 +15,27 @@
 .wall{
     background-color: #000 !important;
 }
+
+.score{
+    padding: 2px;
+    background-color: #dadada;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 20px;
+    width: 200px;
+}
+
+.score-name{
+    background-color: #d5d5da;
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+
+.score-value{
+    background-color: #ececec;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+    color: #827979
+}

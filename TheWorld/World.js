@@ -25,6 +25,10 @@ var getSlot = function (){
     return document.getElementById("arenaSlot");
 }
 
+var getScoreBoard = function(){
+    return document.getElementById("scoreBoard")
+}
+
 var getTable = function(){
     return document.getElementById("arena");
 }
@@ -51,7 +55,7 @@ var createVillager = function(content, villagers, size, type){
             validator = 1;
         }
     }
-    villagers.push([type, 40, position[0], position[1]]);
+    villagers.push([type, 0, position[0], position[1]]);
     return villagers;
 }
 
@@ -156,6 +160,7 @@ var createWorld = function(size){
                 arenaGraphic.children[l].children[c].setAttribute("class", "wall");
             }else{
                 line[c] = "☺";
+                arenaGraphic.children[l].children[c].innerHTML = "•"
             }
         }
         content.push(line);
@@ -187,6 +192,7 @@ var populeWorld = function(content){
 }
 
 var round = function(content){
+    var scoreBoard = getScoreBoard();
     villagers.forEach(function(value , key){
         moveTo(getRamdonMove(), content, villagers, key);
     })
@@ -194,6 +200,7 @@ var round = function(content){
     console.log("new round");
     villagers.forEach(function(value , key){
         console.log("Life: " + value[0] + " = " + value[1]);
+        scoreBoard.children[key].children[1].innerHTML = value[1];
     })
 
 }
