@@ -4,8 +4,10 @@
 
 var villagers = [];
 var content = [];
+var internallWalls = 0;
 
-var printLog = function (content) {   
+
+var printLog = function (content) {
     for(var i=0 ; i < content.length ; i++){
         console.log("linha: " + i,content[i]);
     }
@@ -183,7 +185,7 @@ var createInternalWalls = function(content, qtd){
 }
 
 var populeWorld = function(content){
-    content = createInternalWalls(content, 6);
+    content = createInternalWalls(content, internallWalls);
     villagers = createVillager(content, villagers, content.length, "♣");
     villagers = createVillager(content, villagers, content.length, "♥");
     villagers = createVillager(content, villagers, content.length, "♠");
@@ -213,7 +215,8 @@ var round = function(content){
 
 ////////////////////////
 
-content = createWorld(10,10);
+content = createWorld(15,15);
+internallWalls = 10;
 content = populeWorld(content);
 
-var rounds = window.setInterval(function(){round(content)}, 100);
+var rounds = window.setInterval(function(){round(content)}, 50);

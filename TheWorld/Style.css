@@ -6,12 +6,27 @@
 }
 
 #arena tr td{
-    background-color: #d5d5da;
+    background-color: #ececec;
     height: 20px;
     width: 20px;
     text-align: center
 }
 
+.button-score{
+    width: 13px;
+    height: 13px;
+    background-color: #d07676;
+    border-radius: 7px;
+    margin-top: 5px;
+    margin-left: 12px;
+    float: left;
+    border: solid 2px #925656;
+}
+
+.button-score:hover{
+    background-color: #a7dc8b;
+    border: solid 2px #79b77e;
+}
 .wall{
     background-color: #000 !important;
 }
@@ -23,6 +38,7 @@
     margin-top: 5px;
     margin-left: 20px;
     width: 200px;
+    float: left;
 }
 
 .score-name{
@@ -37,5 +53,14 @@
     border-radius: 3px;
     text-align: center;
     font-weight: bold;
-    color: #827979
+    color: #827979;
+    float: left;
+    width: 60%;
+    height: 25px;
 }
+
+#scoreBoard{
+    float: left;
+    width: 350px;
+}
+
