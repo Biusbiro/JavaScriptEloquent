@@ -115,6 +115,24 @@ var moveTo = function(position, content, villagers, actual){
     return null;
 }
 
+var createGraphicTable = function(size){
+    var arenaSlot = document.getElementById("arenaSlot");
+    var arenaGraphic = document.createElement("table");
+    for (var j = 0; j < size; j++) {
+        var row = document.createElement("tr");
+        for (var i = 0; i < size; i++) {
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode("");
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+        }
+        arenaGraphic.appendChild(row);
+    }
+    arenaGraphic.id = "arena";
+    console.log("Created Arena Graphic with" + size + " X " + size);
+    arenaSlot.appendChild(arenaGraphic);
+}
+
 var createWorld = function(size){
     var line = [];
     for(var l = 0 ; l < size ; l++){
@@ -128,10 +146,12 @@ var createWorld = function(size){
         content.push(line);
         line = [];
     }
+    createGraphicTable(size);
     return content;
 }
 
 var createInternalWalls = function(content, qtd){
+    arena = document.getElementById(arena);
     for(var i=0 ; i<qtd ; i++){
         var position = (getRamdonPosition(content.length));
         content = printPosition(content, position, "#");

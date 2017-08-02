@@ -1,0 +1,17 @@
+#arena {
+    border: solid #000 1px;
+    font-weight: bold;
+    background-color: #e2e2e2;
+    padding: 2px;
+}
+
+#arena tr td{
+    background-color: #d5d5da;
+    height: 20px;
+    width: 20px;
+    text-align: center
+}
+
+.wall{
+    background-color: #000;
+}
