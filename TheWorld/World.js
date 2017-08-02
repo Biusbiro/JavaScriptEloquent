@@ -61,6 +61,10 @@ var createVillager = function(content, villagers, size, type){
     return villagers;
 }
 
+var isNumber = function(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
 var  printPosition = function(content, position, type) {
     content[position[0]][position[1]] = type;
     return content;
@@ -198,12 +202,20 @@ var round = function(content){
     })
 }
 
+//var setTeam = function(event){
+//    this.
+//}
+
+var looping = function(content, object){
+    
+    var rounds = window.setInterval(function(){round(content)}, config.velocity);
+}
+
 var start = function(config){
     config = setConfigs(config); //config settings selected by user or default
     document.getElementById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
-    var rounds = window.setInterval(function(){round(content)}, config.velocity);
 }
 
 var isNumber = function(value) {
@@ -228,6 +240,8 @@ var setConfigs = function(config){
         config.sizeWorld = sizeTemp;
     return config;
 }
+
+
 
 var config = {
 ////////////////////////--  DEFAULT CONFIG  --//////////////////////////
