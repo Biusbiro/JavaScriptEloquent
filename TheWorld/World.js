@@ -1,18 +1,17 @@
-//import {printLog, getRamdonPosition, getRamdonMove} from 'Tools';
-//import {createVillager, printPosition, clearPosition, 
-//        inspectPositions,moveTo} from 'Villager';
-
+// global variables
 var villagers = [];
 var content = [];
 var freePositions = 0;
+var rounds = 0;
 
-
+// print in lines format the matrix in console.log
 var printLog = function (content) {
     for(var i=0 ; i < content.length ; i++){
         console.log("linha: " + i,content[i]);
     }
 }
 
+// genetated a pair of points based in content size
 var  getRamdonPosition = function(size) {
     size = size-2;
     var wall_l = Math.round(Math.random()*100)%size;
@@ -23,28 +22,21 @@ var  getRamdonPosition = function(size) {
     return cell;
 }
 
-var getSlot = function (){
-    return document.getElementById("arenaSlot");
+// return the element requisited per String parameter
+var getById = function (element) {
+    return document.getElementById(element);
 }
 
-var getScoreBoard = function(){
-    return document.getElementById("scoreBoard");
-}
-
-var getTable = function(){
-    return document.getElementById("arena");
-}
-
+// return five options, up, left, down, right, null for movement
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
     return positions[Math.round(Math.random()*100)%5];
-    // 5 why draw a invalid type, dont move
 }
 
 var createVillager = function(content, villagers, size, type){
     var validator = 0;
     var position = [];
-    var arena = getTable();
+    var arena = getById("arena");
     while(validator === 0){
         position = getRamdonPosition(size);
         if(content[position[0]][position[1]] === "#"){
@@ -114,7 +106,7 @@ var moveTo = function(position, content, villagers, actual){
             target.push(0,0);
     }
     var point = inspectPositions(content, villagers[actual], target)
-        var arena = getTable();
+        var arena = getById("arena");
         if (point !== "#"){
             content = clearPosition(content, [villagers[actual][2],villagers[actual][3]]);
             arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = "";
@@ -133,7 +125,7 @@ var moveTo = function(position, content, villagers, actual){
 }
 
 var createGraphicTable = function(size){
-    var arenaSlot = getTable();
+    var arenaSlot = getById("arena");
     var arenaGraphic = document.createElement("table");
     for (var j = 0; j < size; j++) {
         var row = document.createElement("tr");
@@ -174,7 +166,7 @@ var createWorld = function(size){
 }
 
 var createInternalWalls = function(content, qtd){
-    var arena = getTable();
+    var arena = getById("arena");
     for(var i=0 ; i<qtd ; i++){
         var position = (getRamdonPosition(content.length));
         content = printPosition(content, position, "#");
@@ -193,7 +185,7 @@ var populeWorld = function(content){
 }
 
 var round = function(content){
-    var scoreBoard = getScoreBoard();
+    var scoreBoard = getById("scoreBoard");
     villagers.forEach(function(value , key){
         moveTo(getRamdonMove(), content, villagers, key);
     })
@@ -201,10 +193,6 @@ var round = function(content){
         scoreBoard.children[key].children[1].innerHTML = value[1];
     })
 }
-
-
-
-
 
 var loopingDefault = function(){
     console.log("Sem entradas para MaxTime & MaxRounds");
@@ -223,13 +211,13 @@ var loopingWitchMaxTime = function(){
 
 var loopingWitchMaxRounds = function(){
     console.log("entrada de dados somente no Max Rounds");
-    while(config.maxRounds > 0){
-        window.setTimeout(
-            round(content),
-            config.velocity
-        ); 
-        config.maxRounds -- ;
-    }
+    var interval = window.setInterval(function() {
+        round(content);
+    }, config.velocity);
+
+    window.setTimeout(function() {
+        clearInterval(interval);
+    }, config.maxTime * 1000);
 }
 
 var loopingWitchMaxTimeAndMaxRounds = function(){
