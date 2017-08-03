@@ -202,13 +202,53 @@ var round = function(content){
     })
 }
 
-//var setTeam = function(event){
-//    this.
-//}
 
-var looping = function(content, object){
-    
+
+
+
+var loopingDefault = function(){
+    console.log("Sem entradas para MaxTime & MaxRounds");
     var rounds = window.setInterval(function(){round(content)}, config.velocity);
+}
+
+var loopingWitchMaxTime = function(){
+    var interval = window.setInterval(function() {
+        round(content);
+    }, config.velocity);
+
+    window.setTimeout(function() {
+        clearInterval(interval);
+    }, config.maxTime * 1000);
+}
+
+var loopingWitchMaxRounds = function(){
+    console.log("entrada de dados somente no Max Rounds");
+    while(config.maxRounds > 0){
+        window.setTimeout(
+            round(content),
+            config.velocity
+        ); 
+        config.maxRounds -- ;
+    }
+}
+
+var loopingWitchMaxTimeAndMaxRounds = function(){
+    console.log("entrada de dados em Max Rounds & Max Time");
+}
+
+    // function that chose the apropriate looping
+var looping = function(content, object, config){    
+    if((config.maxTime == -1) && (config.maxRounds != -1)){
+        loopingWitchMaxRounds();
+    }else
+    if((config.maxTime != -1) && (config.maxRounds == -1)){
+        loopingWitchMaxTime();
+    }else
+    if((config.maxTime != -1) && (config.maxRounds != -1)){
+        loopingWitchMaxTimeAndMaxRounds();
+    }else{
+        loopingDefault();
+    }
 }
 
 var start = function(config){

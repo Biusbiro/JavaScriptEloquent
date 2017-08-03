@@ -15,7 +15,7 @@
                 <input id="speed" class="input-config" type="text" placeholder="Speed">
                 <input id="walls" class="input-config" type="text" placeholder="Internal walls">
                 <input id="rounds" class="input-config" type="text" placeholder="Max rounds">
-                <input id="time" class="input-config" type="text" placeholder="Max time">
+                <input id="time" class="input-config" type="text" placeholder="Max time (sec)">
                 <input id="size" class="input-config" type="text" placeholder="World Size (>6)">
             </div>
         </div>
@@ -25,22 +25,22 @@
         <div class="score" id="vi1">
             <div class="score-name">♣</div>
             <div class="score-value">0</div>
-            <div id="♣" class="button-score" onclick="looping(content, this)"></div><br/>
+            <div id="♣" class="button-score" onclick="looping(content, this, config)"></div><br/>
         </div>
         <div class="score" id="vi2">
             <div class="score-name">♥</div>
             <div class="score-value">0</div>
-            <div id="♥" class="button-score" onclick="looping(content, this)"></div><br/>
+            <div id="♥" class="button-score" onclick="looping(content, this, config)"></div><br/>
         </div>
         <div class="score" id="vi3">
             <div class="score-name">♠</div>
             <div class="score-value">0</div>
-            <div id="♠" class="button-score" onclick="looping(content, this)"></div><br/>
+            <div id="♠" class="button-score" onclick="looping(content, this, config)"></div><br/>
         </div>
         <div class="score" id="vi4">
             <div class="score-name">♦</div>
             <div class="score-value">0</div>
-            <div id="♦" class="button-score" onclick="looping(content, this)"></div>
+            <div id="♦" class="button-score" onclick="looping(content, this, config)"></div>
         <br/>
         </div>
     </div>
