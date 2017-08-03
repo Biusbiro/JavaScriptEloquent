@@ -34,6 +34,7 @@ var getRamdonMove = function(){
     return positions[Math.round(Math.random()*100)%5];
 }
 
+// create Character and print in DOM
 var createCharacter = function(content, character, size, type){
     var validator = 0;
     var position = [];
@@ -54,30 +55,36 @@ var createCharacter = function(content, character, size, type){
     return character;
 }
 
+// verify if is a number
 var isNumber = function(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
+// print a string in the passed position
 var  printPosition = function(content, position, type) {
     content[position[0]][position[1]] = type;
     return content;
 }
 
+// print blank space in the passed position
 var  clearPosition = function(content, position) {
     content[position[0]][position[1]] = " ";
     return content;
 }
 
+// check what's in the position
 var inspectPositions = function(content, character, target){
     return content[character[2]+target[0]][character[3]+target[1]];
 }
 
+// set a new position for character
 var setNewCharacterPosition = function(character, target){
     character[2] = character[2]+target[0];
     character[3] = character[3]+target[1];
     return character;
 }
 
+// get random position for move and verify if is empty, move and print in DOM
 var moveTo = function(position, content, character, actual){
     var target = [];
     switch (position){
@@ -242,11 +249,6 @@ var start = function(config){
     document.getElementById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
-}
-
-// return true if the value passed is a number
-var isNumber = function(value) {
-    return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
 // verify the input values and setting congif variable
