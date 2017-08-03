@@ -1,8 +1,9 @@
-// global variables
-var villagers = [];
-var content = [];
-var freePositions = 0;
-var rounds = 0;
+// global variables/////////
+    var characters = [];
+    var content = [];
+    var freePositions = 0;
+    var rounds = 0;
+////////////////////////////
 
 // print in lines format the matrix in console.log
 var printLog = function (content) {
@@ -27,30 +28,30 @@ var getById = function (element) {
     return document.getElementById(element);
 }
 
-// return five options, up, left, down, right, null for movement
+// return five options, up, left, down, right, null, for movement characters
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
     return positions[Math.round(Math.random()*100)%5];
 }
 
-var createVillager = function(content, villagers, size, type){
+var createCharacter = function(content, character, size, type){
     var validator = 0;
     var position = [];
     var arena = getById("arena");
     while(validator === 0){
         position = getRamdonPosition(size);
         if(content[position[0]][position[1]] === "#"){
-            console.log("error, position[" + 
+            console.log("relocad character, position[" + 
             position[0] + "][" + position[1] + 
-            "] is ocuped", content[position[0]][position[1]]);
+            "] is ocuped for internal wall: ", content[position[0]][position[1]]);
         }else{
             content[position[0]][position[1]] = type;
             arena.children[position[0]].children[position[1]].innerHTML = type;
             validator = 1;
         }
     }
-    villagers.push([type, 0, position[0], position[1]]);
-    return villagers;
+    character.push([type, 0, position[0], position[1]]);
+    return character;
 }
 
 var isNumber = function(value) {
@@ -67,27 +68,17 @@ var  clearPosition = function(content, position) {
     return content;
 }
 
-var inspectPositions = function(content, villager, target){
-    return content[villager[2]+target[0]][villager[3]+target[1]];
+var inspectPositions = function(content, character, target){
+    return content[character[2]+target[0]][character[3]+target[1]];
 }
 
-var setNewVillagerPosition = function(villager, target){
-    villager[2] = villager[2]+target[0];
-    villager[3] = villager[3]+target[1];
-    return villager;
+var setNewCharacterPosition = function(character, target){
+    character[2] = character[2]+target[0];
+    character[3] = character[3]+target[1];
+    return character;
 }
 
-var getVillagerByPosition = function(villagers, col, lin){//aqui ainda não está verificando
-    villagers.forEach(function(value, key) {
-        if((villagers[key][2] === col) && (villagers[key][3] === lin )){
-            console.log("values: " , villagers[key][2], villagers[key][3])
-            return villagers[key];
-        }
-    });
-    return null;
-}
-
-var moveTo = function(position, content, villagers, actual){
+var moveTo = function(position, content, character, actual){
     var target = [];
     switch (position){
         case 'l': //move to left
@@ -105,25 +96,26 @@ var moveTo = function(position, content, villagers, actual){
         default: //no move
             target.push(0,0);
     }
-    var point = inspectPositions(content, villagers[actual], target)
+    var point = inspectPositions(content, character[actual], target)
         var arena = getById("arena");
         if (point !== "#"){
-            content = clearPosition(content, [villagers[actual][2],villagers[actual][3]]);
-            arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = "";
-            setNewVillagerPosition(villagers[actual], target);
-            content = printPosition(content, [villagers[actual][2],villagers[actual][3]], villagers[actual][0]);
-            arena.children[villagers[actual][2]].children[villagers[actual][3]].innerHTML = villagers[actual][0];
+            content = clearPosition(content, [character[actual][2],character[actual][3]]);
+            arena.children[character[actual][2]].children[character[actual][3]].innerHTML = "";
+            setNewCharacterPosition(character[actual], target);
+            content = printPosition(content, [character[actual][2],character[actual][3]], character[actual][0]);
+            arena.children[character[actual][2]].children[character[actual][3]].innerHTML = character[actual][0];
         }
         if((point === "☺")){
-            villagers[actual][1] += 5;
+            character[actual][1] += 5;
         }else if((point == "♥")||(point === "♦")||(point === "♣")||(point === "♠")){
-            if(point !== villagers[actual][0]){
+            if(point !== character[actual][0]){
                 //create function for start duel of the sides
             }
     }
     return null;
 }
 
+// creates arena in the DOM
 var createGraphicTable = function(size){
     var arenaSlot = getById("arena");
     var arenaGraphic = document.createElement("table");
@@ -142,8 +134,9 @@ var createGraphicTable = function(size){
     return arenaGraphic;
 }
 
+//create the square arena <table> with config.WorldSize
 var createWorld = function(size){
-    arenaGraphic = createGraphicTable(size); //create the arena <table> with size described
+    arenaGraphic = createGraphicTable(size); 
     var line = [];
     for(var l = 0 ; l < size ; l++){
         for(var c = 0 ; c < size ; c++){
@@ -161,10 +154,10 @@ var createWorld = function(size){
     }
     var arenaSlot = document.getElementById("arenaSlot");
     arenaSlot.appendChild(arenaGraphic);
-    //console.log("ArenaWalls", arenaGraphic);
     return content;
 }
 
+// generates internall walls based in config.internallWalls value
 var createInternalWalls = function(content, qtd){
     var arena = getById("arena");
     for(var i=0 ; i<qtd ; i++){
@@ -175,30 +168,34 @@ var createInternalWalls = function(content, qtd){
     return content;
 }
 
+// generates pre-configured characters and call function for set internal walls
 var populeWorld = function(content){
     content = createInternalWalls(content, config.internallWalls);
-    villagers = createVillager(content, villagers, content.length, "♣");
-    villagers = createVillager(content, villagers, content.length, "♥");
-    villagers = createVillager(content, villagers, content.length, "♠");
-    villagers = createVillager(content, villagers, content.length, "♦");
+    characters = createCharacter(content, characters, content.length, "♣");
+    characters = createCharacter(content, characters, content.length, "♥");
+    characters = createCharacter(content, characters, content.length, "♠");
+    characters = createCharacter(content, characters, content.length, "♦");
     return content;
 }
 
+// update location for character and the scoreboard
 var round = function(content){
     var scoreBoard = getById("scoreBoard");
-    villagers.forEach(function(value , key){
-        moveTo(getRamdonMove(), content, villagers, key);
+    characters.forEach(function(value , key){
+        moveTo(getRamdonMove(), content, characters, key);
     })
-    villagers.forEach(function(value , key){
+    characters.forEach(function(value , key){
         scoreBoard.children[key].children[1].innerHTML = value[1];
     })
 }
 
+// looping for no user data entry for MaxRounds and MaxTime
 var loopingDefault = function(){
     console.log("Sem entradas para MaxTime & MaxRounds");
     var rounds = window.setInterval(function(){round(content)}, config.velocity);
 }
 
+// looping with max time passed by user
 var loopingWitchMaxTime = function(){
     var interval = window.setInterval(function() {
         round(content);
@@ -224,7 +221,7 @@ var loopingWitchMaxTimeAndMaxRounds = function(){
     console.log("entrada de dados em Max Rounds & Max Time");
 }
 
-    // function that chose the apropriate looping
+// function that chose the apropriate looping
 var looping = function(content, object, config){    
     if((config.maxTime == -1) && (config.maxRounds != -1)){
         loopingWitchMaxRounds();
@@ -239,6 +236,7 @@ var looping = function(content, object, config){
     }
 }
 
+// create world with settings, popule and show in DOM
 var start = function(config){
     config = setConfigs(config); //config settings selected by user or default
     document.getElementById("bg-config").style.display = "none";
@@ -246,10 +244,12 @@ var start = function(config){
     content = populeWorld(content);
 }
 
+// return true if the value passed is a number
 var isNumber = function(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
+// verify the input values and setting congif variable
 var setConfigs = function(config){
     velocityTemp = document.getElementById('speed').value
     wallsTemp = document.getElementById('walls').value;
@@ -268,8 +268,6 @@ var setConfigs = function(config){
         config.sizeWorld = sizeTemp;
     return config;
 }
-
-
 
 var config = {
 ////////////////////////--  DEFAULT CONFIG  --//////////////////////////
