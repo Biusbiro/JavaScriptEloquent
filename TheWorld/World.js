@@ -28,6 +28,10 @@ var getById = function (element) {
     return document.getElementById(element);
 }
 
+var getBySession = function(element) {
+    return JSON.parse(sessionStorage.getItem(element));
+}
+
 // return five options, up, left, down, right, null, for movement characters
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
@@ -159,7 +163,7 @@ var createWorld = function(size){
         content.push(line);
         line = [];
     }
-    var arenaSlot = document.getElementById("arenaSlot");
+    var arenaSlot = getById("arenaSlot");
     arenaSlot.appendChild(arenaGraphic);
     return content;
 }
@@ -215,21 +219,84 @@ var loopingWitchMaxTime = function(){
 
 var loopingWitchMaxRounds = function(){
     console.log("entrada de dados somente no Max Rounds");
-    var interval = window.setInterval(function() {
-        round(content);
-    }, config.velocity);
+    //var interval = window.setInterval(function() {
+    //    round(content);
+    //}, config.velocity);
 
-    window.setTimeout(function() {
-        clearInterval(interval);
-    }, config.maxTime * 1000);
+    //window.setTimeout(function() {
+    //    clearInterval(interval);
+    //}, config.maxTime * 1000);
 }
 
 var loopingWitchMaxTimeAndMaxRounds = function(){
     console.log("entrada de dados em Max Rounds & Max Time");
 }
 
+// set default value in session
+var setConfigInSession = function() {
+    console.log("checked save config");
+    var configTemp = JSON.stringify(config);
+    sessionStorage.setItem('savedConfig', configTemp);
+}
+
+var getValuesForm = function(){
+    var temp = {
+        velocity : getById('speed' ).value,
+        walls    : getById('walls' ).value,
+        rounds   : getById('rounds').value,
+        time     : getById('time'  ).value,
+        size     : getById('size'  ).value 
+    }
+    return temp;
+}
+
+// receive all values of forms and subscribe valid values
+var suscribeConfig = function(data) {
+    console.log("session data", getBySession('savedConfig'));
+    var temp = getValuesForm();
+    if(data == null){
+        console.log("nao tem session", getValuesForm());
+        if(isNumber(temp.velocity))
+            config.velocity = temp.velocity;
+        if(isNumber(temp.walls))
+            config.internallWalls = temp.walls;
+        if(isNumber(temp.rounds))
+            config.maxRounds = temp.rounds;
+        if(isNumber(temp.time))
+            config.maxTime = temp.time;
+        if(isNumber(temp.size) && (temp.size > 6))
+            config.sizeWorld = temp.size;
+    }else{
+        console.log("se tem session", getValuesForm());
+        if(isNumber(temp.velocity))
+            data.velocity = temp.velocity;
+        if(isNumber(temp.walls))
+            data.internallWalls = temp.walls;
+        if(isNumber(temp.rounds))
+            data.maxRounds = temp.rounds;
+        if(isNumber(temp.time))
+            data.maxTime = temp.time;
+        if(isNumber(temp.size) && (temp.size > 6))
+            data.sizeWorld = temp.size;
+
+        config.velocity = data.velocity;
+        config.internallWalls = data.internallWalls;
+        config.maxRounds = data.maxRounds;
+        config.maxTime = data.maxTime;
+        config.sizeWorld = data.sizeWorld;
+
+        getById("saveconfig").checked = true;
+    }
+
+    if(getById("saveconfig").checked = true){
+        console.log("esta check");
+        console.log(getById("saveconfig"));
+        setConfigInSession();
+    }
+}
+
 // function that chose the apropriate looping
-var looping = function(content, object, config){    
+var looping = function(content, object){  
     if((config.maxTime == -1) && (config.maxRounds != -1)){
         loopingWitchMaxRounds();
     }else
@@ -243,43 +310,37 @@ var looping = function(content, object, config){
     }
 }
 
-// create world with settings, popule and show in DOM
-var start = function(config){
-    config = setConfigs(config); //config settings selected by user or default
-    document.getElementById("bg-config").style.display = "none";
-    content = createWorld(config.sizeWorld, config.sizeWorld);
-    content = populeWorld(content);
+var setConfigs = function(configuration){
+    console.log("session antes", getBySession('savedConfig'));
+    var sessionConfig = getBySession('savedConfig');
+    var startConfig = suscribeConfig(sessionConfig);
+    console.log("session depois", getBySession('savedConfig'));
 }
 
-// verify the input values and setting congif variable
-var setConfigs = function(config){
-    velocityTemp = document.getElementById('speed').value
-    wallsTemp = document.getElementById('walls').value;
-    roundsTemp = document.getElementById('rounds').value;
-    timeTemp = document.getElementById('time').value;
-    sizeTemp = document.getElementById('size').value;
-    if(isNumber(velocityTemp))
-        config.velocity = velocityTemp;
-    if(isNumber(wallsTemp))
-        config.internallWalls = wallsTemp;
-    if(isNumber(roundsTemp))
-        config.maxRounds = roundsTemp;
-    if(isNumber(timeTemp))
-        config.maxTime = timeTemp;
-    if(isNumber(sizeTemp) && (sizeTemp > 6))
-        config.sizeWorld = sizeTemp;
-    return config;
+// create world with settings, popule and show in DOM
+var start = function(){
+    setConfigs();
+    getById("bg-config").style.display = "none";
+    content = createWorld(config.sizeWorld, config.sizeWorld);
+    content = populeWorld(content);
+    //if (getById("saveconfig"))
+    console.log(getById("saveconfig"))
+    //    sessionStorage.removeItem('savedConfig');
+}
+
+if(getBySession('savedConfig')){
+    getById("saveconfig").checked = true;
 }
 
 var config = {
-////////////////////////--  DEFAULT CONFIG  --//////////////////////////
+////////////////////////--  DEFAULT CONFIG  --///////////////////////////////
  
-                sizeWorld      : 12  ,   // only square worlds
-                maxRounds      : -1  ,   // set -1 for infinity
-                maxTime        : -1  ,   // set -1 for infinity
-                internallWalls : 10  ,   // the internal Walls
-                velocity       : 100 ,   // in miliseconds
-                userSelected   : "♣" ,   // chose one of: ♣, ♥, ♠, ♦.
+            sizeWorld      : 12  ,   // only square worlds
+            maxRounds      : -1  ,   // set -1 for infinity
+            maxTime        : -1  ,   // set -1 for infinity
+            internallWalls : 10  ,   // the internal Walls
+            velocity       : 100 ,   // in miliseconds
+            userSelected   : "♣" ,   // chose one of: ♣, ♥, ♠, ♦.
 
-////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 }
