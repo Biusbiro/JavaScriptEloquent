@@ -23,31 +23,35 @@
             </div>
         </div>
     </div>
-
-    <div id="scoreBoard">
-        <div class="score" id="vi1">
-            <div class="score-name">♣</div>
-            <div class="score-value">0</div>
-            <div id="♣" class="button-score" onclick="looping(content, this)"></div><br/>
+    <div id=pannel>
+        <div id="scoreBoard">
+            <div class="score" id="vi1">
+                <div class="score-name">♣</div>
+                <div class="score-value">0</div>
+                <div id="♣" class="button-score" onclick="looping(content, this)"></div><br/>
+            </div>
+            <div class="score" id="vi2">
+                <div class="score-name">♥</div>
+                <div class="score-value">0</div>
+                <div id="♥" class="button-score" onclick="looping(content, this)"></div><br/>
+            </div>
+            <div class="score" id="vi3">
+                <div class="score-name">♠</div>
+                <div class="score-value">0</div>
+                <div id="♠" class="button-score" onclick="looping(content, this)"></div><br/>
+            </div>
+            <div class="score" id="vi4">
+                <div class="score-name">♦</div>
+                <div class="score-value">0</div>
+                <div id="♦" class="button-score" onclick="looping(content, this)"></div><br/>
+            </div>
         </div>
-        <div class="score" id="vi2">
-            <div class="score-name">♥</div>
-            <div class="score-value">0</div>
-            <div id="♥" class="button-score" onclick="looping(content, this)"></div><br/>
-        </div>
-        <div class="score" id="vi3">
-            <div class="score-name">♠</div>
-            <div class="score-value">0</div>
-            <div id="♠" class="button-score" onclick="looping(content, this)"></div><br/>
-        </div>
-        <div class="score" id="vi4">
-            <div class="score-name">♦</div>
-            <div class="score-value">0</div>
-            <div id="♦" class="button-score" onclick="looping(content, this)"></div>
-        <br/>
+        <div id="status" class="status">
+            <div id="display-round" class="status-round">round: 0</div>
+            <div id="display-char"  class="status-user-char"></div>
+            <div id="display-timer" class="status-timer"></div>
         </div>
     </div>
-    
     <script src="World.js"></script>
 </body>
 </html>

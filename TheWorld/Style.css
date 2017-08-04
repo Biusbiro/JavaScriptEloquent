@@ -120,3 +120,42 @@
     margin-top: 0px;
     border-radius: 4px;
 }
+
+.status{
+    background-color: grey;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 16px;
+    margin-left: -8px;
+    font-weight: bold; 
+}
+
+.status-user-char{
+    background-color: white;
+    border-radius: 4px;
+    color: #2b2a2a;
+    text-align: center;
+    padding: 3px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 2px;
+    font-size: 51px;
+}
+
+.status-timer{
+    background-color: white;
+    border-radius: 4px;
+    color: grey;
+    padding: 3px;
+    margin: 2px;
+}
+
+.status-round{
+    background-color: #ececec;
+    border-radius: 4px;
+    color: #4c4949;
+    padding: 3px;
+    font-size: 12px;
+    margin: 2px;
+    text-align: center;
+}

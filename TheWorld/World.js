@@ -195,7 +195,9 @@ var populeWorld = function(content){
 
 // update location for character and the scoreboard
 var round = function(content){
+    roundCounter++;
     var scoreBoard = getById("scoreBoard");
+    getById("display-round").innerHTML = "round: " + roundCounter;
     characters.forEach(function(value , key){
         moveTo(getRamdonMove(), content, characters, key);
     })
@@ -243,7 +245,7 @@ var loopingWitchMaxRounds = function(){
                 clearInterval(rounds);
             if (roundCounter == config.maxRounds)
                 clearInterval(rounds);
-            roundCounter ++;
+            //roundCounter ++;
     }, config.velocity);
 }
 
@@ -351,8 +353,12 @@ var suscribeConfig = function(data) {
     }
 }
 
+
+
 // function that chose the apropriate looping
 var looping = function(content, object){
+    config.userSelected = object.id;
+    getById("display-char").innerHTML = config.userSelected;
     if((config.maxTime == -1) && (config.maxRounds != -1)){
         loopingWitchMaxRounds();
     }else
@@ -374,10 +380,13 @@ var setConfigs = function(configuration){
 // create world with settings, popule and show in DOM
 var start = function(){ 
     setConfigs();
+    //config.userSelected;
     getById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
 }
+
+
 
 var config = {
 ////////////////////////--  DEFAULT CONFIG  --///////////////////////////////
@@ -387,7 +396,7 @@ var config = {
             maxTime        : -1  ,   // set -1 for infinity
             internallWalls : 10  ,   // the internal Walls
             velocity       : 100 ,   // in miliseconds
-            userSelected   : "♣" ,   // chose one of: ♣, ♥, ♠, ♦.
+            userSelected   : "" ,   // chose one of: ♣, ♥, ♠, ♦.
 
 /////////////////////////////////////////////////////////////////////////////
 }
