@@ -3,14 +3,9 @@
     var content = [];
     var freePositions = 0;
     var rounds = 0;
+    var pointsRemoved = 0;
+    var roundCounter = 0;
 ////////////////////////////
-
-// print in lines format the matrix in console.log
-var printLog = function (content) {
-    for(var i=0 ; i < content.length ; i++){
-        console.log("linha: " + i,content[i]);
-    }
-}
 
 // genetated a pair of points based in content size
 var  getRamdonPosition = function(size) {
@@ -49,6 +44,7 @@ var createCharacter = function(content, character, size, type){
             content[position[0]][position[1]] = type;
             arena.children[position[0]].children[position[1]].innerHTML = type;
             validator = 1;
+            freePositions --;
         }
     }
     character.push([type, 0, position[0], position[1]]);
@@ -104,20 +100,21 @@ var moveTo = function(position, content, character, actual){
             target.push(0,0);
     }
     var point = inspectPositions(content, character[actual], target)
-        var arena = getById("arena");
-        if (point !== "#"){
-            content = clearPosition(content, [character[actual][2],character[actual][3]]);
-            arena.children[character[actual][2]].children[character[actual][3]].innerHTML = "";
-            setNewCharacterPosition(character[actual], target);
-            content = printPosition(content, [character[actual][2],character[actual][3]], character[actual][0]);
-            arena.children[character[actual][2]].children[character[actual][3]].innerHTML = character[actual][0];
+    var arena = getById("arena");
+    if (point !== "#"){
+        content = clearPosition(content, [character[actual][2],character[actual][3]]);
+        arena.children[character[actual][2]].children[character[actual][3]].innerHTML = "";
+        setNewCharacterPosition(character[actual], target);
+        content = printPosition(content, [character[actual][2],character[actual][3]], character[actual][0]);
+        arena.children[character[actual][2]].children[character[actual][3]].innerHTML = character[actual][0];
+    }
+    if((point === "☺")){
+        pointsRemoved ++;
+        character[actual][1] += 5;
+    }else if((point == "♥")||(point === "♦")||(point === "♣")||(point === "♠")){
+        if(point !== character[actual][0]){
+            //create function for start duel of the sides
         }
-        if((point === "☺")){
-            character[actual][1] += 5;
-        }else if((point == "♥")||(point === "♦")||(point === "♣")||(point === "♠")){
-            if(point !== character[actual][0]){
-                //create function for start duel of the sides
-            }
     }
     return null;
 }
@@ -171,6 +168,7 @@ var createInternalWalls = function(content, qtd){
         var position = (getRamdonPosition(content.length));
         content = printPosition(content, position, "#");
         arena.children[position[0]].children[position[1]].setAttribute("class", "wall");
+        freePositions --;
     }
     return content;
 }
@@ -198,14 +196,26 @@ var round = function(content){
 
 // looping for no user data entry for MaxRounds and MaxTime
 var loopingDefault = function(){
+    
     console.log("Sem entradas para MaxTime & MaxRounds");
-    var rounds = window.setInterval(function(){round(content)}, config.velocity);
+    var rounds = window.setInterval(
+        function(){
+            round(content);
+            //console.log("get " + pointsRemoved + " of " + freePositions);
+            if (pointsRemoved == freePositions){
+                clearInterval(rounds);
+            }
+    }, config.velocity);
 }
 
 // looping with max time passed by user
 var loopingWitchMaxTime = function(){
-    var interval = window.setInterval(function() {
-        round(content);
+        var interval = window.setInterval(
+        function() {
+            round(content);
+            if (pointsRemoved == freePositions){
+                clearInterval(rounds);
+            }
     }, config.velocity);
 
     window.setTimeout(function() {
@@ -213,19 +223,39 @@ var loopingWitchMaxTime = function(){
     }, config.maxTime * 1000);
 }
 
-var loopingWitchMaxRounds = function(){
+// looping with max rounds passed by user
+var loopingWitchMaxRounds = function(){ 
     console.log("entrada de dados somente no Max Rounds");
-    //var interval = window.setInterval(function() {
-    //    round(content);
-    //}, config.velocity);
-
-    //window.setTimeout(function() {
-    //    clearInterval(interval);
-    //}, config.maxTime * 1000);
+    var rounds = window.setInterval(
+        function(){
+            round(content);
+            if (pointsRemoved == freePositions)
+                clearInterval(rounds);
+            if (roundCounter == config.maxRounds)
+                clearInterval(rounds);
+            roundCounter ++;
+    }, config.velocity);
 }
 
+// looping with max time and max rounds passed by user
 var loopingWitchMaxTimeAndMaxRounds = function(){
     console.log("entrada de dados em Max Rounds & Max Time");
+    var rounds = window.setInterval(
+        function(){
+            roundCounter ++;
+            round(content);
+            console.log("round", roundCounter);
+            if (pointsRemoved == freePositions)
+                clearInterval(rounds);
+            if (roundCounter == config.maxRounds)
+                clearInterval(rounds);
+            
+    }, config.velocity);
+    
+    window.setTimeout(function() {
+        clearInterval(rounds);
+        //aqui chamo a função que vai executar assim que parar
+    }, config.maxTime * 1000);
 }
 
 // get the form values and add to object
