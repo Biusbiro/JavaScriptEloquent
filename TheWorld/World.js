@@ -8,14 +8,15 @@
 // function listen enter button for start game
 
 
-// global variables/////////
-    var characters = [];
-    var content = [];
-    var freePositions = 0;
-    var rounds = 0;
-    var pointsRemoved = 0;
-    var roundCounter = 0;
-////////////////////////////
+// global variables////////////
+    var characters = [];     //
+    var content = [];        //
+    var freePositions = 0;   // 
+    var rounds = 0;          //
+    var pointsRemoved = 0;   //
+    var roundCounter = 0;    //
+    var screen = 0;          //  -> 0 = start screen| 1 = game screen
+///////////////////////////////
 
 // genetated a pair of points based in content size
 var  getRamdonPosition = function(size) {
@@ -353,8 +354,6 @@ var suscribeConfig = function(data) {
     }
 }
 
-
-
 // function that chose the apropriate looping
 var looping = function(content, object){
     config.userSelected = object.id;
@@ -380,12 +379,26 @@ var setConfigs = function(configuration){
 // create world with settings, popule and show in DOM
 var start = function(){ 
     setConfigs();
-    //config.userSelected;
     getById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
 }
 
+// Listener for detected enter key in 2 steps: start screen, game screen
+addEventListener("keyup", function(event) {
+    if (event.keyCode == 13){
+        if(screen === 0){
+            start(config);
+            screen = 1;
+        }else 
+        if(screen === 1){
+            console.log("deu certo");
+            looping(content, getById("scoreBoard").children[Math.round(Math.random()*100)%4].children[2]);
+            console.log(getById("scoreBoard").children[1].children[2]);
+        }
+    }
+        
+});
 
 
 var config = {
@@ -396,7 +409,7 @@ var config = {
             maxTime        : -1  ,   // set -1 for infinity
             internallWalls : 10  ,   // the internal Walls
             velocity       : 100 ,   // in miliseconds
-            userSelected   : "" ,   // chose one of: ♣, ♥, ♠, ♦.
+            userSelected   : ""  ,   // chose one of: ♣, ♥, ♠, ♦.
 
 /////////////////////////////////////////////////////////////////////////////
 }
