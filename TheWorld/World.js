@@ -1,3 +1,13 @@
+// tasks: 
+// show winner function
+// show timer function
+// show rounds function
+// create div for winner rounds and time
+// fix storage in session functions and checkboc in start page
+// resize table when world size goes very large
+// function listen enter button for start game
+
+
 // global variables/////////
     var characters = [];
     var content = [];
