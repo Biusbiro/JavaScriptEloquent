@@ -1,18 +1,14 @@
 // tasks: 
+//
 // show winner function
-// show timer function
-// show rounds function
-// create div for winner rounds and time
 // fix storage in session functions and checkboc in start page
-// resize table when world size goes very large
-// function listen enter button for start game
+// fix chars buttons, hide the not selected buttons
 
 
 // global variables////////////
     var characters = [];     //
     var content = [];        //
-    var freePositions = 0;   // 
-    var rounds = 0;          //
+    var freePositions = 0;   //
     var pointsRemoved = 0;   //
     var roundCounter = 0;    //
     var screen = 0;          //  -> 0 = start screen| 1 = game screen
@@ -149,6 +145,19 @@ var createGraphicTable = function(size){
     return arenaGraphic;
 }
 
+var resizeArena = function(size) {
+    if(size > 20 ){
+        var ar = document.getElementById("arena");
+        var cells = ar.getElementsByTagName("TD");
+        for (i = 0; i < cells.length; i++) {
+            cells[i].style.width = "10px";
+            cells[i].style.height = "10px";
+            cells[i].style.padding = "0px";
+            cells[i].style.fontSize = "9px";
+        }
+    }
+}
+
 //create the square arena <table> with config.WorldSize
 var createWorld = function(size){
     arenaGraphic = createGraphicTable(size); 
@@ -169,6 +178,7 @@ var createWorld = function(size){
     }
     var arenaSlot = getById("arenaSlot");
     arenaSlot.appendChild(arenaGraphic);
+    resizeArena(size);
     return content;
 }
 
