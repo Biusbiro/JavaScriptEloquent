@@ -28,10 +28,6 @@ var getById = function (element) {
     return document.getElementById(element);
 }
 
-var getBySession = function(element) {
-    return JSON.parse(sessionStorage.getItem(element));
-}
-
 // return five options, up, left, down, right, null, for movement characters
 var getRamdonMove = function(){
     var positions = ["l","r","u","d"];
@@ -232,13 +228,7 @@ var loopingWitchMaxTimeAndMaxRounds = function(){
     console.log("entrada de dados em Max Rounds & Max Time");
 }
 
-// set default value in session
-var setConfigInSession = function() {
-    console.log("checked save config");
-    var configTemp = JSON.stringify(config);
-    sessionStorage.setItem('savedConfig', configTemp);
-}
-
+// get the form values and add to object
 var getValuesForm = function(){
     var temp = {
         velocity : getById('speed' ).value,
@@ -250,12 +240,42 @@ var getValuesForm = function(){
     return temp;
 }
 
+// set value in sessionStorage
+var setSession = function(name, value) {
+    var Temp = JSON.stringify(value);
+    sessionStorage.setItem(name, value);
+}
+
+// remove value in sessionStorage
+var removeSession = function(name){
+    sessionStorage.removeItem(name);
+}
+
+// get value in sessionStorage
+var getSession = function(name){
+    return JSON.parse(sessionStorage.getItem(name));
+}
+
+// assistent for session functions
+var session = function(type, name, value){
+    switch (type){
+        case "remove":
+            removeSession(name);
+            break;
+        case "set":
+            setSession(name, value);
+            break;
+        case "get":
+            getSession(name);
+        default:
+            console.log("incorrect value in session function")
+        }
+}
+
 // receive all values of forms and subscribe valid values
 var suscribeConfig = function(data) {
-    console.log("session data", getBySession('savedConfig'));
     var temp = getValuesForm();
     if(data == null){
-        console.log("nao tem session", getValuesForm());
         if(isNumber(temp.velocity))
             config.velocity = temp.velocity;
         if(isNumber(temp.walls))
@@ -267,7 +287,6 @@ var suscribeConfig = function(data) {
         if(isNumber(temp.size) && (temp.size > 6))
             config.sizeWorld = temp.size;
     }else{
-        console.log("se tem session", getValuesForm());
         if(isNumber(temp.velocity))
             data.velocity = temp.velocity;
         if(isNumber(temp.walls))
@@ -285,18 +304,15 @@ var suscribeConfig = function(data) {
         config.maxTime = data.maxTime;
         config.sizeWorld = data.sizeWorld;
 
-        getById("saveconfig").checked = true;
     }
 
     if(getById("saveconfig").checked = true){
-        console.log("esta check");
-        console.log(getById("saveconfig"));
-        setConfigInSession();
+        session("remove", "saveconfig");
     }
 }
 
 // function that chose the apropriate looping
-var looping = function(content, object){  
+var looping = function(content, object){
     if((config.maxTime == -1) && (config.maxRounds != -1)){
         loopingWitchMaxRounds();
     }else
@@ -311,25 +327,16 @@ var looping = function(content, object){
 }
 
 var setConfigs = function(configuration){
-    console.log("session antes", getBySession('savedConfig'));
-    var sessionConfig = getBySession('savedConfig');
+    var sessionConfig = session("get", "savedConfig");
     var startConfig = suscribeConfig(sessionConfig);
-    console.log("session depois", getBySession('savedConfig'));
 }
 
 // create world with settings, popule and show in DOM
-var start = function(){
+var start = function(){ 
     setConfigs();
     getById("bg-config").style.display = "none";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
-    //if (getById("saveconfig"))
-    console.log(getById("saveconfig"))
-    //    sessionStorage.removeItem('savedConfig');
-}
-
-if(getBySession('savedConfig')){
-    getById("saveconfig").checked = true;
 }
 
 var config = {
