@@ -382,7 +382,7 @@ var looping = function(content, object){
     }
 }
 
-// function that call store in session function and upgrade config setings
+// function that call store in session function and update config setings
 var setConfigs = function(configuration){
     var sessionConfig = session("get", "savedConfig");
     var startConfig = suscribeConfig(sessionConfig);
