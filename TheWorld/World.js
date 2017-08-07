@@ -145,6 +145,7 @@ var createGraphicTable = function(size){
     return arenaGraphic;
 }
 
+// resize arena for best view when there are many cells
 var resizeArena = function(size) {
     if(size > 20 ){
         var ar = document.getElementById("arena");
@@ -381,6 +382,7 @@ var looping = function(content, object){
     }
 }
 
+// function that call store in session function and upgrade config setings
 var setConfigs = function(configuration){
     var sessionConfig = session("get", "savedConfig");
     var startConfig = suscribeConfig(sessionConfig);
