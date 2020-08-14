@@ -392,6 +392,7 @@ var setConfigs = function(configuration){
 var start = function(){ 
     setConfigs();
     getById("bg-config").style.display = "none";
+    getById("pannel").style.display = "block";
     content = createWorld(config.sizeWorld, config.sizeWorld);
     content = populeWorld(content);
 }

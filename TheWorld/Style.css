@@ -12,6 +12,10 @@
     text-align: center
 }
 
+#arenaSlot{
+    text-align: center;
+}
+
 .button-score{
     width: 13px;
     height: 13px;
@@ -71,19 +75,17 @@
 
 .bg-config{
     background-color: #1b1b1b;
-    border-radius: 10px;
-    width: 380px;
-    height: 200px;
-    position: absolute;
+    border-radius: 20px;
+    width: 30%;
     margin: auto;
     display: block;
+    text-align: center;
+    padding: 20px;
 }
 
 .button-config
 {
-    position: relative;
-    margin: 60px auto 30px;
-    width: 30%;
+    margin: 20px 20% 20px 20%;
     padding: 10px;
     background-color: white;
     border-radius: 10px;
