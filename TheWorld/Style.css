@@ -3,6 +3,15 @@
     font-weight: bold;
     background-color: #e2e2e2;
     padding: 2px;
+    margin: auto;
+}
+
+#arenaSlot {
+    margin-top: 10%;
+}
+
+#setupSlot{
+    margin-top: 10%;
 }
 
 #arena tr td{
@@ -10,10 +19,6 @@
     height: 20px;
     width: 20px;
     text-align: center
-}
-
-#arenaSlot{
-    text-align: center;
 }
 
 .button-score{
@@ -64,13 +69,25 @@
 }
 
 #scoreBoard{
-    float: left;
-    width: 240px;
     margin-top: 10px;
+    width: 240px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #status{
-    float: left;
+    display: inline-block;
+    vertical-align: top;
+    background-color: grey;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 16px;
+    margin-left: -8px;
+    font-weight: bold;
+}
+
+#pannel{
+    text-align:center;
 }
 
 .bg-config{
