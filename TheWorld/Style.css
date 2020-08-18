@@ -1,3 +1,24 @@
+body{
+    background: rgba(199,199,199,1);
+    background: -moz-linear-gradient(left, rgba(199,199,199,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,1) 65%, rgba(194,194,194,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(199,199,199,1)), color-stop(43%, rgba(255,255,255,1)), color-stop(65%, rgba(255,255,255,1)), color-stop(100%, rgba(194,194,194,1)));
+    background: -webkit-linear-gradient(left, rgba(199,199,199,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,1) 65%, rgba(194,194,194,1) 100%);
+    background: -o-linear-gradient(left, rgba(199,199,199,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,1) 65%, rgba(194,194,194,1) 100%);
+    background: -ms-linear-gradient(left, rgba(199,199,199,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,1) 65%, rgba(194,194,194,1) 100%);
+    background: linear-gradient(to right, rgba(199,199,199,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,1) 65%, rgba(194,194,194,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c7c7c7', endColorstr='#c2c2c2', GradientType=1 );
+}
+
+#top{
+    background-color: #1b1b1b;
+    border-radius: 5px;
+    text-align: center;
+    color: #bbbbbb;
+    font-stretch: bold;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
 #arena {
     border: solid #000 1px;
     font-weight: bold;
@@ -20,6 +41,21 @@
     width: 20px;
     text-align: center
 }
+.top-buttons-container{
+    text-align: center;
+    padding: 10px;
+}
+
+.top-buttons-container a{
+    color: #ececec;
+}
+
+.top-items{
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #232323;
+}
 
 .button-score{
     width: 13px;
@@ -36,6 +72,7 @@
     background-color: #a7dc8b;
     border: solid 2px #79b77e;
 }
+
 .wall{
     background-color: #000 !important;
 }
@@ -178,4 +215,18 @@
     font-size: 12px;
     margin: 2px;
     text-align: center;
+}
+
+@media (max-width: 900px) 
+{
+    .bg-config{
+        width: 60%;
+    }
+}
+
+@media (max-width: 500px) 
+{
+    .bg-config{
+        width: 90%;
+    }
 }
